@@ -20,7 +20,7 @@ public class Portail {
 	private Utilisateur UserConnected ;
 	private static boolean isConnectedToPortal;
 	public ArrayList<Utilisateur> ListUsers = new ArrayList();
-	public ArrayList<Groupe> ListGroups = new ArrayList();
+	public static ArrayList<Groupe> ListGroups = new ArrayList();
 	public ArrayList<Objet> ListObjet = new ArrayList();
 
 	/**

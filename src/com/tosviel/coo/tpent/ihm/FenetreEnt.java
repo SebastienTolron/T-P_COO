@@ -48,37 +48,51 @@ public class FenetreEnt extends JDialog {
 		JLabel lblListDeMes = new JLabel("List de mes groupes ");
 		lblListDeMes.setBounds(37, 99, 128, 14);
 		contentPane.add(lblListDeMes);
-		/* DEBUG
-		 * 
-		 */
-		
-
-		
-		Iterator<Groupe> it = e.ListGroup.iterator();
-		Groupe gMatch = new Groupe();
-    	while (it.hasNext()) {
-    		
-    			
-    		   Groupe u = it.next();	
-    	       System.out.println(u.toString());
-    	}
-    
+	 
     	
+    	
+    	Object[][] donnees = new Object[e.ListGroup.size()][8] ;
+        for (int i = 0; i < e.ListGroup.size(); i++) {
+            for (int j = 0; j < 1; j++) {
+            	donnees[i][j] =  e.ListGroup.get(i).getNom();
+            	donnees[i][j+1] =  "Modifier";
+            }
+        }
+    	
+        String[] entetes = {"Groupe", "Modifier",};
+ 
+        JTable tableau = new JTable(donnees, entetes);  
+        
+        
+        
 	
 		
 		JButton btnCreerUnGroupe = new JButton("Creer un groupe ");
 		btnCreerUnGroupe.setBounds(27, 380, 170, 23);
 		contentPane.add(btnCreerUnGroupe);
 		
-		table = new JTable();
-		table.setBounds(37, 143, 237, 216);
-		contentPane.add(table);
-		
 		JButton btnDeconnection = new JButton("Deconnection");
 		btnDeconnection.setBounds(321, 380, 128, 23);
 		contentPane.add(btnDeconnection);
 		
+		JPanel panel = new JPanel();
+		panel.setBounds(35, 124, 257, 225);
+		contentPane.add(panel);
 		
+		table = tableau;
+		panel.add(table);
+		
+		btnCreerUnGroupe.addActionListener(new ActionListener(){
+		      
+				public void actionPerformed(ActionEvent e){
+		        	
+					FenetreCreationGroupe fcg = new FenetreCreationGroupe();
+					fcg.setVisible(true);
+					fcg.setModal(true);
+		     
+		        }
+		 });
+		 
 		
 		 btnDeconnection.addActionListener(new ActionListener(){
 		      
