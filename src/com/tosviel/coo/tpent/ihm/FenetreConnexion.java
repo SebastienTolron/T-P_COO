@@ -21,31 +21,23 @@ import java.util.Iterator;
 
 import javax.swing.JButton;
 
+import com.tosviel.coo.tpent.metiers.Portail;
 import com.tosviel.coo.tpent.metiers.Utilisateur;
 
-public class FenetreConnexion extends JDialog {
+public class FenetreConnexion extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
 	private JPasswordField passField;
-	private boolean isConnected = false;
-	public Utilisateur user;
-
-	public boolean isConnected() {
-		return isConnected;
-	}
 
 
-	public void setConnected(boolean isConnected) {
-		this.isConnected = isConnected;
-	}
 
 
 	/**
 	 * Create the frame.
 	 * @param listUsers 
 	 */
-	public FenetreConnexion(final ArrayList<Utilisateur> listUsers) {
+	public FenetreConnexion(final Portail p1) {
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 401, 348);
 		contentPane = new JPanel();
@@ -97,7 +89,7 @@ public class FenetreConnexion extends JDialog {
 		            }
 		            else 
 		            {
-		            	Iterator<Utilisateur> it = listUsers.iterator();
+		            	Iterator<Utilisateur> it = p1.ListUsers.iterator();
 		            	 
 		            	while (it.hasNext()) {
 		            		
@@ -107,9 +99,10 @@ public class FenetreConnexion extends JDialog {
 		            	    		   {
 		            	    	   		if (u.getPass().equals(passField.getText()))
 		            	    	   		{
-		            		            	setConnected(true);
-		            		            	setUser(u);
-		            		            	dispose();
+		            		            	setVisible(false);
+		            		            	p1.userConnected(u);
+		            		            	p1.AfficheEnt(p1);
+		            		            	
 		            	    	   		}
 		            	    	   		else
 		            	    	   			lblLoginOuMot.setVisible(true);
@@ -125,18 +118,13 @@ public class FenetreConnexion extends JDialog {
 		            
 
 		        }
+
+			
 		    });
 		 
 		 
 	}
 
 
-	public Utilisateur getUser() {
-		return user;
-	}
-
-
-	public void setUser(Utilisateur user) {
-		this.user = user;
-	}
+	
 }

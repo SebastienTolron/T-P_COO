@@ -2,6 +2,8 @@ package com.tosviel.coo.tpent.ihm;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -13,9 +15,10 @@ import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.WindowConstants;
 
+import com.tosviel.coo.tpent.metiers.Groupe;
 import com.tosviel.coo.tpent.metiers.Portail;
 
-public class FenetreCreationGroupe extends JDialog {
+public class FenetreCreationGroupe extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -27,7 +30,7 @@ public class FenetreCreationGroupe extends JDialog {
 	/**
 	 * Create the frame.
 	 */
-	public FenetreCreationGroupe() {
+	public FenetreCreationGroupe(final Portail p1) {
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 484, 501);
 		contentPane = new JPanel();
@@ -98,5 +101,22 @@ public class FenetreCreationGroupe extends JDialog {
 		JLabel lblUtilisateursDansLe = new JLabel("Utilisateurs dans le groupe");
 		lblUtilisateursDansLe.setBounds(292, 124, 161, 14);
 		contentPane.add(lblUtilisateursDansLe);
+		
+		btnNewButton_1.addActionListener(new ActionListener(){
+		      
+			public void actionPerformed(ActionEvent e){
+	        	
+				Groupe groupe = new Groupe(4,textField.getText(), p1.getUserConnected());
+				p1.addGroup(groupe);
+				p1.getUserConnected().addGroup(groupe);
+				System.out.println(p1.getUserConnected().ListGroup.toString());
+				setVisible(false);
+				
+	     
+	        }
+	 });
+		
+		
+		
 	}
 }

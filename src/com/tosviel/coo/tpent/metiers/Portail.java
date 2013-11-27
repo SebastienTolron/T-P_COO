@@ -5,6 +5,7 @@ package com.tosviel.coo.tpent.metiers;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Observable;
 
 import javax.swing.WindowConstants;
 
@@ -15,7 +16,7 @@ import com.tosviel.coo.tpent.ihm.FenetreEnt;
  * @author Seb
  *
  */
-public class Portail {
+public class Portail extends Observable {
 	
 	private Utilisateur UserConnected ;
 	private static boolean isConnectedToPortal;
@@ -24,21 +25,18 @@ public class Portail {
 	public ArrayList<Objet> ListObjet = new ArrayList();
 
 	/**
+	 * @param p1 
 	 * @param args
 	 * @return 
 	 */
 	
 	
-	public  void SeConnecter ()
+	public  void SeConnecter (Portail p1)
 	{
-		FenetreConnexion fc = new FenetreConnexion(this.ListUsers);
-		fc.setModal(true);
+		FenetreConnexion fc = new FenetreConnexion(p1);	
 		fc.setVisible(true);
-		if ( fc.isConnected())			
-		{
-			this.isConnectedToPortal=true;
-			this.setUserConnected(fc.user);
-		}
+		
+	
 		
 	}
 
@@ -60,12 +58,12 @@ public class Portail {
 	}
 
 
-	public void AfficheEnt() {
+	public void AfficheEnt(Portail p1) {
 		
 		
 		
-		FenetreEnt fent = new FenetreEnt(this.UserConnected);
-		fent.setModal(true);
+		FenetreEnt fent = new FenetreEnt(this);	;
+		p1.addObserver(fent);
 		fent.setVisible(true);
 		
 	}
@@ -83,9 +81,10 @@ public class Portail {
 	}
 
 
-	public static void deconnection() {
+	public void deconnection() {
 		
 		 isConnectedToPortal= false;
+		 this.setUserConnected(null);
 	}
 
 
@@ -111,7 +110,11 @@ public class Portail {
 
 
 	public void addGroup(Groupe groupe) {
+		
 		this.ListGroups.add(groupe);
+		
+		this.setChanged(); // Positionne son indicateur de changement
+	    this.notifyObservers(); // (1) notification
 		
 	}
 
@@ -133,5 +136,11 @@ public class Portail {
     	  }
     	return gMatch;
     	
+	}
+
+
+	public void userConnected(Utilisateur u) {
+		this.UserConnected=u;
+		
 	}
 }

@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Iterator;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -22,17 +24,22 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.WindowConstants;
 
-public class FenetreEnt extends JDialog {
+public class FenetreEnt extends JFrame implements Observer  {
 
 	private JPanel contentPane;
 	private JTable table;
-
 	
+	
+	
+	public  void update(Observable observable, Object objectConcerne) {
+		System.out.println("machin");
+  	   this.repaint(); // (3) traitement de l'observation
+  	  }
 
 	/**
 	 * Create the frame.
 	 */
-	public FenetreEnt(Utilisateur e) {
+	public FenetreEnt(final Portail p1) {
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 490, 467);
 		contentPane = new JPanel();
@@ -41,7 +48,7 @@ public class FenetreEnt extends JDialog {
 		contentPane.setLayout(null);
 		
 		
-		JLabel lblBienvenue = new JLabel("Bienvenue "+e.getPrenom()+" "+e.getNom());
+		JLabel lblBienvenue = new JLabel("Bienvenue "+p1.getUserConnected().getPrenom()+" "+p1.getUserConnected().getNom());
 		lblBienvenue.setBounds(129, 32, 278, 14);
 		contentPane.add(lblBienvenue);
 		
@@ -51,10 +58,10 @@ public class FenetreEnt extends JDialog {
 	 
     	
     	
-    	Object[][] donnees = new Object[e.ListGroup.size()][8] ;
-        for (int i = 0; i < e.ListGroup.size(); i++) {
+    	Object[][] donnees = new Object[p1.getUserConnected().ListGroup.size()][8] ;
+        for (int i = 0; i < p1.getUserConnected().ListGroup.size(); i++) {
             for (int j = 0; j < 1; j++) {
-            	donnees[i][j] =  e.ListGroup.get(i).getNom();
+            	donnees[i][j] =  p1.getUserConnected().ListGroup.get(i).getNom();
             	donnees[i][j+1] =  "Modifier";
             }
         }
@@ -63,10 +70,7 @@ public class FenetreEnt extends JDialog {
  
         JTable tableau = new JTable(donnees, entetes);  
         
-        
-        
-	
-		
+
 		JButton btnCreerUnGroupe = new JButton("Creer un groupe ");
 		btnCreerUnGroupe.setBounds(27, 380, 170, 23);
 		contentPane.add(btnCreerUnGroupe);
@@ -86,9 +90,9 @@ public class FenetreEnt extends JDialog {
 		      
 				public void actionPerformed(ActionEvent e){
 		        	
-					FenetreCreationGroupe fcg = new FenetreCreationGroupe();
+					FenetreCreationGroupe fcg = new FenetreCreationGroupe(p1);
 					fcg.setVisible(true);
-					fcg.setModal(true);
+					
 		     
 		        }
 		 });
@@ -100,7 +104,8 @@ public class FenetreEnt extends JDialog {
 		        	
 					dispose();
 					setVisible(false);
-		        	Portail.deconnection();
+		        	p1.deconnection();
+		        	p1.SeConnecter(p1);
 		        }
 		 });
 

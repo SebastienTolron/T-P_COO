@@ -30,17 +30,15 @@ public class Main {
 		p1.getGroup(3).addUser(p1.getUser(2));
 		
 	
-		while (true)
-		{
-			p1.SeConnecter();
+		
+		p1.SeConnecter(p1);			
 			
-			while ( p1.isConnectedToPortal())
-			p1.AfficheEnt();
+		//	p1.AfficheEnt();
 		
 			
 		
 			
-		}
+		
 	}
 	
 	
