@@ -16,7 +16,7 @@ import com.tosviel.coo.tpent.ihm.FenetreEnt;
  * @author Seb
  *
  */
-public class Portail extends Observable {
+public class Portail  {
 	
 	private Utilisateur UserConnected ;
 	private static boolean isConnectedToPortal;
@@ -63,7 +63,7 @@ public class Portail extends Observable {
 		
 		
 		FenetreEnt fent = new FenetreEnt(this);	;
-		p1.addObserver(fent);
+	
 		fent.setVisible(true);
 		
 	}
@@ -112,9 +112,7 @@ public class Portail extends Observable {
 	public void addGroup(Groupe groupe) {
 		
 		this.ListGroups.add(groupe);
-		
-		this.setChanged(); // Positionne son indicateur de changement
-	    this.notifyObservers(); // (1) notification
+
 		
 	}
 
@@ -143,4 +141,20 @@ public class Portail extends Observable {
 		this.UserConnected=u;
 		
 	}
+	
+	public Utilisateur getUserByName(String nom){
+		
+		
+		for ( int i = 0 ; i< ListUsers.size();i++)
+		{
+			if ( ListUsers.get(i).getNom().equals(nom))
+			{
+				return ListUsers.get(i);
+			}
+		}
+		return null;
+		
+		}
+		
+	
 }

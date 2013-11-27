@@ -33,8 +33,7 @@ public class Main {
 		
 		p1.SeConnecter(p1);			
 			
-		//	p1.AfficheEnt();
-		
+	
 			
 		
 			

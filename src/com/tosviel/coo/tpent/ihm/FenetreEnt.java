@@ -24,28 +24,24 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.WindowConstants;
 
-public class FenetreEnt extends JFrame implements Observer  {
+public class FenetreEnt extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
-	
-	
-	
-	public  void update(Observable observable, Object objectConcerne) {
-		System.out.println("machin");
-  	   this.repaint(); // (3) traitement de l'observation
-  	  }
+
 
 	/**
 	 * Create the frame.
 	 */
 	public FenetreEnt(final Portail p1) {
-		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 490, 467);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		
 		
 		
 		JLabel lblBienvenue = new JLabel("Bienvenue "+p1.getUserConnected().getPrenom()+" "+p1.getUserConnected().getNom());
@@ -92,6 +88,7 @@ public class FenetreEnt extends JFrame implements Observer  {
 		        	
 					FenetreCreationGroupe fcg = new FenetreCreationGroupe(p1);
 					fcg.setVisible(true);
+					setVisible(false);
 					
 		     
 		        }

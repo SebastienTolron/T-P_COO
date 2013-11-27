@@ -38,7 +38,7 @@ public class FenetreConnexion extends JFrame {
 	 * @param listUsers 
 	 */
 	public FenetreConnexion(final Portail p1) {
-		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 401, 348);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
