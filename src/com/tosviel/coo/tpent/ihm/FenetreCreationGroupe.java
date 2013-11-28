@@ -27,6 +27,7 @@ import javax.swing.WindowConstants;
 
 import com.tosviel.coo.tpent.metiers.Groupe;
 import com.tosviel.coo.tpent.metiers.Portail;
+import javax.swing.JTree;
 
 public class FenetreCreationGroupe extends JFrame  {
 
@@ -130,26 +131,10 @@ public class FenetreCreationGroupe extends JFrame  {
 		// faire un modele pour les documents 
 		
 		final DefaultListModel listModelDoc = new DefaultListModel();
-		final JList listDoc = new JList(listModelDoc);
-
-
-		JPanel panel3 = new JPanel();
-		panel3.setBounds(34, 381, 390, 108);
-		contentPane.add(panel3);		
-		panel3.add(listDoc);
-
 		
-		JLabel lblDocuments = new JLabel("Objets");
-		lblDocuments.setBounds(34, 356, 82, 14);
-		contentPane.add(lblDocuments);
-		
-		JButton btnPlus = new JButton("+");
-		btnPlus.setBounds(271, 352, 46, 23);
-		contentPane.add(btnPlus);
-		
-		JButton button_1 = new JButton("-");
-		button_1.setBounds(327, 352, 46, 23);
-		contentPane.add(button_1);
+		JTree tree = new JTree();
+		tree.setBounds(35, 347, 353, 127);
+		contentPane.add(tree);
 		
 		
 		btnAjout.addActionListener(new ActionListener(){
@@ -247,16 +232,6 @@ public class FenetreCreationGroupe extends JFrame  {
 				
 	     
 	        }
-	 });
-		
-		btnPlus.addActionListener(new ActionListener(){
-		      
-			public void actionPerformed(ActionEvent e){
-	        	
-				FenetreAjoutObjet fo = new FenetreAjoutObjet();
-				fo.setVisible(true);
-				
-	            }
 	 });
 		
 		
