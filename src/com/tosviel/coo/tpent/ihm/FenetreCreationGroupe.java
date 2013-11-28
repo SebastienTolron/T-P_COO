@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -26,7 +28,7 @@ import javax.swing.WindowConstants;
 import com.tosviel.coo.tpent.metiers.Groupe;
 import com.tosviel.coo.tpent.metiers.Portail;
 
-public class FenetreCreationGroupe extends JFrame {
+public class FenetreCreationGroupe extends JFrame  {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -128,13 +130,13 @@ public class FenetreCreationGroupe extends JFrame {
 		// faire un modele pour les documents 
 		
 		final DefaultListModel listModelDoc = new DefaultListModel();
-		final JList listDoc = new JList(listModel);
+		final JList listDoc = new JList(listModelDoc);
 
 
 		JPanel panel3 = new JPanel();
 		panel3.setBounds(34, 381, 390, 108);
 		contentPane.add(panel3);		
-		panel3.add(table_2);
+		panel3.add(listDoc);
 
 		
 		JLabel lblDocuments = new JLabel("Objets");
@@ -259,10 +261,7 @@ public class FenetreCreationGroupe extends JFrame {
 		
 		
 		
-		
-		
-		
-		
+
 		
 		
 	}

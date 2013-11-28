@@ -13,13 +13,17 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 
-public class FenetreAjoutObjet extends JFrame {
+
+
+
+
+public class FenetreAjoutObjet extends JFrame  {
 
 	private JPanel contentPane;
 	private JTextField textField;
 
 	
-	public FenetreAjoutObjet() {
+	public FenetreAjoutObjet()  {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -58,8 +62,8 @@ public class FenetreAjoutObjet extends JFrame {
 		      
 			public void actionPerformed(ActionEvent e){
 	        	
-				FenetreAjoutObjet fo = new FenetreAjoutObjet();
-				fo.setVisible(true);
+				System.out.println("youhou");
+				setVisible(false);
 				
 	            }
 	 });
