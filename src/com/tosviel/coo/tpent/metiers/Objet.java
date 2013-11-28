@@ -21,4 +21,9 @@ public class Objet {
 		Relation relation = new Relation(pLibele, pObjet);
 		listrelation.add(relation);
 	}
+
+	@Override
+	public String toString() {
+		return this.nom;
+	}
 }

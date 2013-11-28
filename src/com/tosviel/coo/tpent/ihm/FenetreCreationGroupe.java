@@ -13,6 +13,7 @@ import java.util.Observer;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -25,9 +26,16 @@ import javax.swing.JButton;
 import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
 
+import com.tosviel.coo.tpent.metiers.Dossier;
+import com.tosviel.coo.tpent.metiers.DynamicTree;
+import com.tosviel.coo.tpent.metiers.Fichier;
 import com.tosviel.coo.tpent.metiers.Groupe;
 import com.tosviel.coo.tpent.metiers.Portail;
+import com.tosviel.coo.tpent.metiers.Utilisateur;
+
 import javax.swing.JTree;
+
+import java.awt.Color;
 
 public class FenetreCreationGroupe extends JFrame  {
 
@@ -37,6 +45,8 @@ public class FenetreCreationGroupe extends JFrame  {
 	private JTable table_1;
 	public String temp ="" ;
 	private JTable table_2;
+	private	JTree treePanel;
+    private int newNodeSuffix = 1;
 
 
 	/**
@@ -109,11 +119,12 @@ public class FenetreCreationGroupe extends JFrame  {
 		contentPane.add(btnRemove);
 		
 		JButton btnSave = new JButton("Enregistrer");
-		btnSave.setBounds(34, 521, 140, 23);
+		btnSave.setForeground(Color.BLACK);
+		btnSave.setBounds(34, 532, 140, 23);
 		contentPane.add(btnSave);
 		
 		JButton btnAnnuler = new JButton("Annuler");
-		btnAnnuler.setBounds(224, 521, 140, 23);
+		btnAnnuler.setBounds(225, 532, 140, 23);
 		contentPane.add(btnAnnuler);
 		
 		
@@ -132,9 +143,38 @@ public class FenetreCreationGroupe extends JFrame  {
 		
 		final DefaultListModel listModelDoc = new DefaultListModel();
 		
-		JTree tree = new JTree();
-		tree.setBounds(35, 347, 353, 127);
-		contentPane.add(tree);
+		
+			// construction de l'arbre
+				
+			//create the root node
+	        DefaultMutableTreeNode root = new DefaultMutableTreeNode(new Dossier("Racine"));
+	        root.add(new DefaultMutableTreeNode("FichierExemple"));
+
+     
+        	//create the tree by passing in the root node   
+        	
+    		treePanel = new JTree(root);
+    		treePanel.setEditable(true);
+			
+      
+
+		
+			treePanel.setBounds(35, 347, 353, 127);
+			contentPane.add(treePanel);
+			
+			JButton btnAjouterFichier = new JButton("Ajouter Fichier");
+			btnAjouterFichier.setBounds(34, 477, 103, 23);
+			contentPane.add(btnAjouterFichier);
+			
+			JButton btnAjouterDossier = new JButton("Ajouter Dossier");
+			btnAjouterDossier.setBounds(147, 477, 107, 23);
+			contentPane.add(btnAjouterDossier);
+			
+			JButton btnSupprimer = new JButton("Supprimer");
+			btnSupprimer.setBounds(264, 477, 89, 23);
+			contentPane.add(btnSupprimer);
+			
+		
 		
 		
 		btnAjout.addActionListener(new ActionListener(){
@@ -235,9 +275,65 @@ public class FenetreCreationGroupe extends JFrame  {
 	 });
 		
 		
+		btnSupprimer.addActionListener(new ActionListener(){
+		      
+			public void actionPerformed(ActionEvent e){
+	        	
+				
+				
+	     
+	        }
+	 });
+		
+		
+		btnAjouterFichier.addActionListener(new ActionListener(){
+		      
+			public void actionPerformed(ActionEvent e){
+	        	
+				DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) treePanel.getLastSelectedPathComponent();			
+				if ((selectedNode.getUserObject() instanceof Dossier))
+				{
+					
+					selectedNode.add(new DefaultMutableTreeNode(new Fichier("Fichier")));
+					treePanel.updateUI();
+				
+				}
+			
+			}
+	 });
+		
+
+		btnAjouterDossier.addActionListener(new ActionListener(){
+		      
+			public void actionPerformed(ActionEvent e){
+	        	
+				DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) treePanel.getLastSelectedPathComponent();			
+				if ((selectedNode.getUserObject() instanceof Dossier))
+				{
+					
+					selectedNode.add(new DefaultMutableTreeNode(new Dossier("Fichier")));
+					
+					treePanel.updateUI();
+				
+				}
+			
+				
+	        }
+	 });
+		
+		
+		
+		
+		
+		
 		
 
 		
+		
+	}
+	
+	public void buildTree()
+	{
 		
 	}
 }

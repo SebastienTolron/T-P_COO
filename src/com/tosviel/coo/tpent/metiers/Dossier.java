@@ -12,5 +12,10 @@ public class Dossier extends Objet {
 		this.type="Fichier";
 		this.ListObjet = new ArrayList<Objet>();
 	}
+
+	public Dossier(String string) {
+
+		this.nom=string;
+	}
 	
 }

@@ -8,5 +8,9 @@ public class Fichier extends Objet {
 		this.type="Fichier";
 		
 	}
+
+	public Fichier(String string) {
+		this.nom=string;
+	}
 	
 }
