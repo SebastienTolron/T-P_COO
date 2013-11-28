@@ -5,6 +5,8 @@ public class Fichier extends Objet {
 	public Fichier()
 	{
 		super();
+		this.type="Fichier";
 		
 	}
+	
 }

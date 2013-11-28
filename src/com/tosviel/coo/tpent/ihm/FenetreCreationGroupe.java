@@ -33,6 +33,7 @@ public class FenetreCreationGroupe extends JFrame {
 	private JTable table;
 	private JTable table_1;
 	public String temp ="" ;
+	private JTable table_2;
 
 
 	/**
@@ -40,7 +41,7 @@ public class FenetreCreationGroupe extends JFrame {
 	 */
 	public FenetreCreationGroupe(final Portail p1) {
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setBounds(100, 100, 484, 501);
+		setBounds(100, 100, 484, 604);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -75,32 +76,16 @@ public class FenetreCreationGroupe extends JFrame {
        
         JTable tableau = new JTable(donneesListUtilisateur, entetes);  
         
-        
-        System.out.println(tableau.toString());
-		
 		table = tableau;		
 		JPanel panel = new JPanel();
 		panel.setBounds(34, 149, 140, 174);
 		contentPane.add(panel);		
 		panel.add(table);
 		
-		
-		
-		// Remplissage de rien 
-		
 
-	
-
-	
-		
-			
-		
 		final DefaultListModel listModel = new DefaultListModel();
-
-
 		final JList list = new JList(listModel);
-		JScrollPane listScroller = new JScrollPane(list);
-		listScroller.setPreferredSize(new Dimension(250, 80));	
+		
 		
 		
 		JPanel panel2 = new JPanel();
@@ -121,11 +106,11 @@ public class FenetreCreationGroupe extends JFrame {
 		contentPane.add(btnRemove);
 		
 		JButton btnSave = new JButton("Enregistrer");
-		btnSave.setBounds(34, 415, 140, 23);
+		btnSave.setBounds(34, 521, 140, 23);
 		contentPane.add(btnSave);
 		
 		JButton btnAnnuler = new JButton("Annuler");
-		btnAnnuler.setBounds(242, 415, 140, 23);
+		btnAnnuler.setBounds(224, 521, 140, 23);
 		contentPane.add(btnAnnuler);
 		
 		
@@ -136,6 +121,33 @@ public class FenetreCreationGroupe extends JFrame {
 		JLabel lblUtilisateursDansLe = new JLabel("Utilisateurs dans le groupe");
 		lblUtilisateursDansLe.setBounds(292, 124, 161, 14);
 		contentPane.add(lblUtilisateursDansLe);
+		
+		// Tables des documents
+		// Faire une JList pour ajouter les documents car le groupe n'est pas encore creer
+		
+		// faire un modele pour les documents 
+		
+		final DefaultListModel listModelDoc = new DefaultListModel();
+		final JList listDoc = new JList(listModel);
+
+
+		JPanel panel3 = new JPanel();
+		panel3.setBounds(34, 381, 390, 108);
+		contentPane.add(panel3);		
+		panel3.add(table_2);
+
+		
+		JLabel lblDocuments = new JLabel("Objets");
+		lblDocuments.setBounds(34, 356, 82, 14);
+		contentPane.add(lblDocuments);
+		
+		JButton btnPlus = new JButton("+");
+		btnPlus.setBounds(271, 352, 46, 23);
+		contentPane.add(btnPlus);
+		
+		JButton button_1 = new JButton("-");
+		button_1.setBounds(327, 352, 46, 23);
+		contentPane.add(button_1);
 		
 		
 		btnAjout.addActionListener(new ActionListener(){
@@ -193,8 +205,10 @@ public class FenetreCreationGroupe extends JFrame {
 		btnSave.addActionListener(new ActionListener(){
 		      
 			public void actionPerformed(ActionEvent e){
-	        	
-				Groupe groupe = new Groupe(4,textField.getText(), p1.getUserConnected());
+				
+				
+	        	int idGroup = p1.ListGroups.size();
+				Groupe groupe = new Groupe(idGroup,textField.getText(), p1.getUserConnected());
 				// on Lie l'administrateur au groupe 
 				p1.addGroup(groupe);			
 				p1.getUserConnected().addGroup(groupe);
@@ -204,13 +218,13 @@ public class FenetreCreationGroupe extends JFrame {
 				{
 					if ( !listModel.get(i).toString().equals(p1.getUserConnected().getNom()))
 					{
-					System.out.println("dans le FOR");
-					p1.getGroup(4).addUser(p1.getUserByName(listModel.get(i).toString()));
-					p1.getUserByName(listModel.get(i).toString()).addGroup(p1.getGroup(4));
+			
+					p1.getGroup(idGroup).addUser(p1.getUserByName(listModel.get(i).toString()));
+					p1.getUserByName(listModel.get(i).toString()).addGroup(p1.getGroup(idGroup));
 					}
 				}
 				
-				System.out.println(p1.getGroup(1).toString());
+				
 				
 				
 				setVisible(false);
@@ -232,6 +246,18 @@ public class FenetreCreationGroupe extends JFrame {
 	     
 	        }
 	 });
+		
+		btnPlus.addActionListener(new ActionListener(){
+		      
+			public void actionPerformed(ActionEvent e){
+	        	
+				FenetreAjoutObjet fo = new FenetreAjoutObjet();
+				fo.setVisible(true);
+				
+	            }
+	 });
+		
+		
 		
 		
 		
