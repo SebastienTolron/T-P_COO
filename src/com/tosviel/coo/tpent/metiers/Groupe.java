@@ -5,6 +5,7 @@ package com.tosviel.coo.tpent.metiers;
 
 import java.util.ArrayList;
 
+import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.tree.TreeNode;
 
@@ -161,6 +162,29 @@ public class Groupe {
 				return listFichier.get(i);
 		}
 		return null;
+	}
+
+	
+
+	public void updateFichier(Fichier file,JTextField textField) {
+
+			int indexTemp = this.getIndexByFile(file);
+			this.listFichier.get(indexTemp).nom=textField.getText();
+			
+		
+	}
+
+	private int getIndexByFile(Fichier file) {
+		
+		int index = 0;
+		for (int i = 0 ; i< listFichier.size(); i++)
+		{
+			if ( listFichier.get(i).id == file.id)
+			{
+				index = i;
+			}
+		}
+		return index;
 	}
 
 

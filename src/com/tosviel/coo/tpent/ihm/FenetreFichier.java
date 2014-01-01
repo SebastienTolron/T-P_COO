@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.tosviel.coo.tpent.metiers.Fichier;
+import com.tosviel.coo.tpent.metiers.Groupe;
 import com.tosviel.coo.tpent.metiers.Objet;
 import com.tosviel.coo.tpent.metiers.Portail;
 
@@ -34,9 +36,10 @@ public class FenetreFichier extends JFrame {
 	 * Create the frame.
 	 * @param fileModif 
 	 * @param p1 
+	 * @param gp 
 	 */
-	public FenetreFichier(final Portail p1, Objet fileModif) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public FenetreFichier(final Portail p1, final Fichier fileModif, final Groupe gp) {
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 379, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -57,7 +60,7 @@ public class FenetreFichier extends JFrame {
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
-		JComboBox comboBox = new JComboBox();
+		JComboBox comboBox = new JComboBox(gp.getListFichier().toArray());
 		comboBox.setBounds(204, 160, 120, 20);
 		contentPane.add(comboBox);
 		
@@ -86,7 +89,8 @@ public class FenetreFichier extends JFrame {
 		      
 			public void actionPerformed(ActionEvent e){
 	        	
-					System.out.println("rien");
+					gp.updateFichier(gp.getFichierById(fileModif.id),textField);
+					setVisible(false);
 			
 				
 	        }
@@ -97,7 +101,7 @@ public class FenetreFichier extends JFrame {
 			public void actionPerformed(ActionEvent e){
 	        	
 					setVisible(false);
-					p1.AfficheEnt(p1);
+					//p1.AfficheEnt(p1);
 			
 				
 	        }

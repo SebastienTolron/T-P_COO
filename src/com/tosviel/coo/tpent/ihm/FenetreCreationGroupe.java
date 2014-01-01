@@ -1,6 +1,7 @@
 package com.tosviel.coo.tpent.ihm;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -41,6 +42,11 @@ import javax.swing.JTree;
 
 import java.awt.Color;
 
+import javax.swing.JSpinner;
+import javax.swing.JTabbedPane;
+import javax.swing.JToolBar;
+import java.awt.Font;
+
 public class FenetreCreationGroupe extends JFrame  {
 
 	private JPanel contentPane;
@@ -54,6 +60,8 @@ public class FenetreCreationGroupe extends JFrame  {
     public int cptTree = 0 ;
 	private ArrayList<Fichier> listObjetFichier = new ArrayList<Fichier>();
 	private ArrayList<Dossier> listObjetDossier = new ArrayList<Dossier>();
+	private JPanel contentPaneUsers;
+	private JPanel contentPaneDocuments;
 
 
 	/**
@@ -61,23 +69,27 @@ public class FenetreCreationGroupe extends JFrame  {
 	 */
 	public FenetreCreationGroupe(final Portail p1) {
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setBounds(100, 100, 484, 740);
+		setBounds(100, 100, 654, 637);
 		contentPane = new JPanel();
+		contentPaneUsers = new JPanel();
+		contentPaneDocuments = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JLabel lblCreationDeGroupe = new JLabel("Creation de groupe");
-		lblCreationDeGroupe.setBounds(147, 29, 125, 14);
+		lblCreationDeGroupe.setFont(new Font("Calibri", Font.BOLD, 24));
+		lblCreationDeGroupe.setBounds(236, 30, 192, 30);
 		contentPane.add(lblCreationDeGroupe);
 		
 		textField = new JTextField();
-		textField.setBounds(90, 71, 134, 20);
+		textField.setBounds(87, 82, 134, 20);
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
 		JLabel lblNom = new JLabel("Nom");
-		lblNom.setBounds(22, 74, 46, 14);
+		lblNom.setFont(new Font("Calibri", Font.PLAIN, 17));
+		lblNom.setBounds(33, 85, 46, 14);
 		contentPane.add(lblNom);
 		
 		
@@ -92,14 +104,15 @@ public class FenetreCreationGroupe extends JFrame  {
         }
     	
         String[] entetes = {"Users"};
+        contentPaneUsers.setLayout(null);
  
        
         JTable tableau = new JTable(donneesListUtilisateur, entetes);  
         
 		table = tableau;		
 		JPanel panel = new JPanel();
-		panel.setBounds(34, 149, 140, 174);
-		contentPane.add(panel);		
+		panel.setBounds(26, 71, 181, 192);
+		contentPaneUsers.add(panel);		
 		panel.add(table);
 		
 
@@ -109,8 +122,8 @@ public class FenetreCreationGroupe extends JFrame  {
 		
 		
 		JPanel panel2 = new JPanel();
-		panel2.setBounds(290, 149, 134, 174);
-		contentPane.add(panel2);
+		panel2.setBounds(323, 73, 181, 190);
+		contentPaneUsers.add(panel2);
 		panel2.add(list);
 	
 
@@ -118,30 +131,53 @@ public class FenetreCreationGroupe extends JFrame  {
 		
 		
 		JButton btnAjout = new JButton("->");
-		btnAjout.setBounds(199, 177, 46, 23);
-		contentPane.add(btnAjout);
-		
-		JButton btnRemove = new JButton("<-");
-		btnRemove.setBounds(199, 242, 46, 23);
-		contentPane.add(btnRemove);
+		btnAjout.setBounds(240, 111, 45, 23);
+		contentPaneUsers.add(btnAjout);
 		
 		JButton btnSave = new JButton("Enregistrer");
 		btnSave.setForeground(Color.BLACK);
-		btnSave.setBounds(34, 649, 140, 23);
+		btnSave.setBounds(87, 476, 140, 23);
 		contentPane.add(btnSave);
 		
 		JButton btnAnnuler = new JButton("Annuler");
-		btnAnnuler.setBounds(236, 649, 140, 23);
+		btnAnnuler.setBounds(259, 476, 140, 23);
 		contentPane.add(btnAnnuler);
 		
 		
 		JLabel lblListeDesUtilisateurs = new JLabel("Liste des utilisateurs");
-		lblListeDesUtilisateurs.setBounds(34, 124, 125, 14);
-		contentPane.add(lblListeDesUtilisateurs);
+		lblListeDesUtilisateurs.setFont(new Font("Calibri", Font.PLAIN, 19));
+		lblListeDesUtilisateurs.setBounds(31, 19, 200, 35);
+		contentPaneUsers.add(lblListeDesUtilisateurs);
+		
+		JButton btnRemove = new JButton("<-");
+		btnRemove.setBounds(240, 157, 45, 23);
+		contentPaneUsers.add(btnRemove);
+		
+		btnRemove.addActionListener(new ActionListener(){
+		      
+			public void actionPerformed(ActionEvent e){
+	        	
+				
+				try {
+				
+					int i = list.getSelectedIndex();
+					temp = temp.replace(list.getSelectedValue().toString()," ");
+					listModel.remove(i);
+				
+				
+				}
+				catch (Exception err)
+				{
+					JOptionPane.showMessageDialog(contentPane, "Veuillez Selectionner un utilisateur a supprimer du groupe");
+				
+	            }
+			}
+	 });
 		
 		JLabel lblUtilisateursDansLe = new JLabel("Utilisateurs dans le groupe");
-		lblUtilisateursDansLe.setBounds(292, 124, 161, 14);
-		contentPane.add(lblUtilisateursDansLe);
+		lblUtilisateursDansLe.setFont(new Font("Calibri", Font.PLAIN, 18));
+		lblUtilisateursDansLe.setBounds(323, 19, 212, 35);
+		contentPaneUsers.add(lblUtilisateursDansLe);
 		
 		// Tables des documents
 		// Faire une JList pour ajouter les documents car le groupe n'est pas encore creer
@@ -156,34 +192,72 @@ public class FenetreCreationGroupe extends JFrame  {
 			//create the root node
 	        DefaultMutableTreeNode root = new DefaultMutableTreeNode(new Dossier(cptTree,"Racine"));
 	        cptTree++;
-	        root.add(new DefaultMutableTreeNode("FichierExemple"));
+	        root.add(new DefaultMutableTreeNode(" ."));
+    		contentPaneDocuments.setLayout(null);
 
      
         	//create the tree by passing in the root node   
         	
     		treePanel = new JTree(root);
-			
+    		//treePanel.setBounds(91, 5, , 200);
     		treePanel.setEditable(true);
     		
     		JScrollPane scrollPane = new JScrollPane(treePanel) ;
     	
-    		scrollPane.setBounds(35, 347, 353, 200);
+    		scrollPane.setBounds(5, 5, 400, 280);
       
-
-		
-			contentPane.add(scrollPane);
-			
-			JButton btnAjouterFichier = new JButton("Ajouter Fichier");
-			btnAjouterFichier.setBounds(39, 574, 103, 23);
-			contentPane.add(btnAjouterFichier);
+    		contentPaneDocuments.add(scrollPane);
 			
 			JButton btnAjouterDossier = new JButton("Ajouter Dossier");
-			btnAjouterDossier.setBounds(148, 574, 107, 23);
-			contentPane.add(btnAjouterDossier);
+			btnAjouterDossier.setBounds(428, 11, 107, 23);
+			contentPaneDocuments.add(btnAjouterDossier);
+			
+				//contentPane.add(scrollPane);
+				
+				JButton btnAjouterFichier = new JButton("Ajouter Fichier");
+				btnAjouterFichier.setBounds(432, 45, 103, 23);
+				contentPaneDocuments.add(btnAjouterFichier);
+				
+				
+				btnAjouterFichier.addActionListener(new ActionListener(){
+				      
+					public void actionPerformed(ActionEvent e){
+	        	
+						DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) treePanel.getLastSelectedPathComponent();			
+						if ((selectedNode.getUserObject() instanceof Dossier))
+						{
+							
+							selectedNode.add(new DefaultMutableTreeNode(new Fichier(cptTree,"Fichier")));
+							cptTree++;
+							
+							treePanel.updateUI();
+						
+						}
+					
+					}
+	 });
 			
 			JButton btnSupprimer = new JButton("Supprimer");
-			btnSupprimer.setBounds(270, 574, 89, 23);
-			contentPane.add(btnSupprimer);
+			btnSupprimer.setBounds(454, 79, 81, 23);
+			contentPaneDocuments.add(btnSupprimer);
+			
+			JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+			tabbedPane.setBounds(32, 127, 550, 324);
+			contentPane.add(tabbedPane);
+			
+			
+			 tabbedPane.addTab("Gestion Utilisateurs", contentPaneUsers);
+			 // In this case the custom component is responsible for rendering the
+			 // title of the tab.
+			// tabbedPane.addTab(null, myComponent);
+			 tabbedPane.setTabComponentAt(0, new JLabel("Tab1"));
+			 tabbedPane.addTab("Gestion des document", contentPaneDocuments);
+			 // In this case the custom component is responsible for rendering the
+			 // title of the tab.
+			// tabbedPane.addTab(null, myComponent);
+			 tabbedPane.setTabComponentAt(0, new JLabel("Gestion des Utilisateirs "));
+			 
+			 
 			
 		
 		
@@ -214,27 +288,6 @@ public class FenetreCreationGroupe extends JFrame  {
 					JOptionPane.showMessageDialog(contentPane, "Veuillez Selectionner un utilisateur");
 				
 	            }
-	 });
-		
-		btnRemove.addActionListener(new ActionListener(){
-		      
-			public void actionPerformed(ActionEvent e){
-	        	
-				
-				try {
-				
-					int i = list.getSelectedIndex();
-					temp = temp.replace(list.getSelectedValue().toString()," ");
-					listModel.remove(i);
-				
-				
-				}
-				catch (Exception err)
-				{
-					JOptionPane.showMessageDialog(contentPane, "Veuillez Selectionner un utilisateur a supprimer du groupe");
-				
-	            }
-			}
 	 });
 		
 		
@@ -307,25 +360,6 @@ public class FenetreCreationGroupe extends JFrame  {
 	        }
 	 });
 		
-		
-		btnAjouterFichier.addActionListener(new ActionListener(){
-		      
-			public void actionPerformed(ActionEvent e){
-	        	
-				DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) treePanel.getLastSelectedPathComponent();			
-				if ((selectedNode.getUserObject() instanceof Dossier))
-				{
-					
-					selectedNode.add(new DefaultMutableTreeNode(new Fichier(cptTree,"Fichier")));
-					cptTree++;
-					
-					treePanel.updateUI();
-				
-				}
-			
-			}
-	 });
-		
 
 		btnAjouterDossier.addActionListener(new ActionListener(){
 		      
@@ -387,6 +421,4 @@ public class FenetreCreationGroupe extends JFrame  {
 	
     
 	}
-	
-	
 	}
