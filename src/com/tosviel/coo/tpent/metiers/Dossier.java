@@ -16,6 +16,7 @@ public class Dossier extends Objet {
 	public Dossier(String string) {
 
 		this.nom=string;
+		this.type = "Dossier";
 	}
 	
 }

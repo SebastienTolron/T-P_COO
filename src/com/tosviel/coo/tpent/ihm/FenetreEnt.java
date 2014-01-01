@@ -54,17 +54,18 @@ public class FenetreEnt extends JFrame {
 	 
     	
     	
-    	Object[][] donnees = new Object[p1.getUserConnected().ListGroup.size()][8] ;
+    	final Object[][] donnees = new Object[p1.getUserConnected().ListGroup.size()][8] ;
         for (int i = 0; i < p1.getUserConnected().ListGroup.size(); i++) {
             for (int j = 0; j < 1; j++) {
-            	donnees[i][j] =  p1.getUserConnected().ListGroup.get(i).getNom();
-            	donnees[i][j+1] =  "Modifier";
+            	donnees[i][j] =  p1.getUserConnected().ListGroup.get(i).getId();
+            	donnees[i][j+1] =  p1.getUserConnected().ListGroup.get(i).getNom();
+            	donnees[i][j+2] = new JButton("Modif");
             }
         }
     	
         String[] entetes = {"Groupe", "Modifier",};
  
-        JTable tableau = new JTable(donnees, entetes);  
+        final JTable tableau = new JTable(donnees, entetes);  
         
 
 		JButton btnCreerUnGroupe = new JButton("Creer un groupe ");
@@ -76,11 +77,15 @@ public class FenetreEnt extends JFrame {
 		contentPane.add(btnDeconnection);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(35, 124, 257, 225);
+		panel.setBounds(35, 124, 257, 172);
 		contentPane.add(panel);
 		
 		table = tableau;
 		panel.add(table);
+		
+		JButton btnModifier = new JButton("Modifier");
+		btnModifier.setBounds(318, 124, 89, 23);
+		contentPane.add(btnModifier);
 		
 		btnCreerUnGroupe.addActionListener(new ActionListener(){
 		      
@@ -105,6 +110,24 @@ public class FenetreEnt extends JFrame {
 		        	p1.SeConnecter(p1);
 		        }
 		 });
+		 
+
+		 btnModifier.addActionListener(new ActionListener(){
+		      
+				public void actionPerformed(ActionEvent e){
+		        	
+					int id = (Integer) donnees[tableau.getSelectedRow()][0];
+					System.out.println("id = "+id);
+					System.out.println(id);
+					setVisible(false);
+					FenetreModifierGroupe fmo = new FenetreModifierGroupe(p1,p1.getGroup(id));
+					fmo.setVisible(true);
+		        			        			        
+				}
+		 });
+		 
+		 
+		 
 
 	}
 }

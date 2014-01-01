@@ -1,49 +1,28 @@
 package com.tosviel.coo.tpent.ihm;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.EventQueue;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Observable;
-import java.util.Observer;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.DefaultListModel;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.JTable;
-import javax.swing.JButton;
-import javax.swing.ListSelectionModel;
-import javax.swing.WindowConstants;
 
 import com.tosviel.coo.tpent.metiers.Dossier;
-import com.tosviel.coo.tpent.metiers.DynamicTree;
 import com.tosviel.coo.tpent.metiers.Fichier;
 import com.tosviel.coo.tpent.metiers.Groupe;
 import com.tosviel.coo.tpent.metiers.Portail;
 import com.tosviel.coo.tpent.metiers.Utilisateur;
 
-import javax.swing.JTree;
-
-import java.awt.Color;
-
-public class FenetreCreationGroupe extends JFrame  {
+public class FenetreModifierGroupe extends JFrame  {
 
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTable table;
 	private JTable table_1;
-	public String temp ="" ;
+	public String listString ="" ;
 	private JTable table_2;
 	public JTree treePanel;
     private int newNodeSuffix = 1;
@@ -52,28 +31,28 @@ public class FenetreCreationGroupe extends JFrame  {
 	/**
 	 * Create the frame.
 	 */
-	public FenetreCreationGroupe(final Portail p1) {
+	public FenetreModifierGroupe(final Portail p1 ,final Groupe gp) {
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setBounds(100, 100, 484, 740);
+		setBounds(100, 100, 484, 604);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblCreationDeGroupe = new JLabel("Creation de groupe");
+		JLabel lblCreationDeGroupe = new JLabel("Modification de ");
 		lblCreationDeGroupe.setBounds(147, 29, 125, 14);
 		contentPane.add(lblCreationDeGroupe);
 		
-		textField = new JTextField();
+		textField = new JTextField(gp.getNom());
 		textField.setBounds(90, 71, 134, 20);
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
 		JLabel lblNom = new JLabel("Nom");
-		lblNom.setBounds(22, 74, 46, 14);
+		lblNom.setBounds(34, 74, 46, 14);
 		contentPane.add(lblNom);
 		
-		
+		System.out.println(gp);
 		// remplissage des utilisateurs 
 	
 		Object[][] donneesListUtilisateur = new Object[p1.ListUsers.size()][8] ;
@@ -95,9 +74,15 @@ public class FenetreCreationGroupe extends JFrame  {
 		contentPane.add(panel);		
 		panel.add(table);
 		
-
 		final DefaultListModel listModel = new DefaultListModel();
 		final JList list = new JList(listModel);
+		ArrayList <Utilisateur> temp2 = gp.getListUtilisateurs();
+		for ( int i = 0 ; i<temp2.size();i++)
+		{
+			
+			listModel.addElement(temp2.get(i).getNom());
+		}
+		
 		
 		
 		
@@ -118,13 +103,13 @@ public class FenetreCreationGroupe extends JFrame  {
 		btnRemove.setBounds(199, 242, 46, 23);
 		contentPane.add(btnRemove);
 		
-		JButton btnSave = new JButton("Enregistrer");
+		JButton btnSave = new JButton("Modifier");
 		btnSave.setForeground(Color.BLACK);
-		btnSave.setBounds(34, 649, 140, 23);
+		btnSave.setBounds(34, 532, 140, 23);
 		contentPane.add(btnSave);
 		
 		JButton btnAnnuler = new JButton("Annuler");
-		btnAnnuler.setBounds(236, 649, 140, 23);
+		btnAnnuler.setBounds(225, 532, 140, 23);
 		contentPane.add(btnAnnuler);
 		
 		
@@ -153,29 +138,31 @@ public class FenetreCreationGroupe extends JFrame  {
      
         	//create the tree by passing in the root node   
         	
-    		treePanel = new JTree(root);
-			
-    		treePanel.setEditable(true);
+    		treePanel = gp.getTreeObjet();
     		
     		JScrollPane scrollPane = new JScrollPane(treePanel) ;
     	
-    		scrollPane.setBounds(35, 347, 353, 200);
+    		scrollPane.setBounds(35, 347, 353, 127);
       
 
 		
 			contentPane.add(scrollPane);
 			
 			JButton btnAjouterFichier = new JButton("Ajouter Fichier");
-			btnAjouterFichier.setBounds(39, 574, 103, 23);
+			btnAjouterFichier.setBounds(34, 477, 103, 23);
 			contentPane.add(btnAjouterFichier);
 			
 			JButton btnAjouterDossier = new JButton("Ajouter Dossier");
-			btnAjouterDossier.setBounds(148, 574, 107, 23);
+			btnAjouterDossier.setBounds(147, 477, 107, 23);
 			contentPane.add(btnAjouterDossier);
 			
 			JButton btnSupprimer = new JButton("Supprimer");
-			btnSupprimer.setBounds(270, 574, 89, 23);
+			btnSupprimer.setBounds(264, 477, 89, 23);
 			contentPane.add(btnSupprimer);
+			
+			JLabel lblgroupe = new JLabel(gp.getNom());
+			lblgroupe.setBounds(226, 29, 46, 14);
+			contentPane.add(lblgroupe);
 			
 		
 		
@@ -183,8 +170,6 @@ public class FenetreCreationGroupe extends JFrame  {
 		btnAjout.addActionListener(new ActionListener(){
 		      
 			public void actionPerformed(ActionEvent e){
-	        	
-				
 				int j = table.getSelectedRow();
 				int i = table.getSelectedColumn();
 				
@@ -194,9 +179,10 @@ public class FenetreCreationGroupe extends JFrame  {
 				if ( i != -1 && j!= -1)
 				{
 					Object Nom = table.getValueAt(j, i);
-					if (!temp.contains(Nom.toString()))
+					if (!listString.contains(Nom.toString()))
 					{
-						temp = temp + Nom.toString()+";;";				
+						
+						listString = listString + Nom.toString()+";;";				
 						listModel.addElement(Nom);
 					}
 			
@@ -205,20 +191,27 @@ public class FenetreCreationGroupe extends JFrame  {
 				else
 					JOptionPane.showMessageDialog(contentPane, "Veuillez Selectionner un utilisateur");
 				
-	            }
+	            
+			}
+			
 	 });
 		
 		btnRemove.addActionListener(new ActionListener(){
 		      
 			public void actionPerformed(ActionEvent e){
 	        	
-				
+			
 				try {
-				
+					
 					int i = list.getSelectedIndex();
-					temp = temp.replace(list.getSelectedValue().toString()," ");
+					listString = listString.replace(list.getSelectedValue().toString()," ");
+					p1.getUserByName(list.getSelectedValue().toString()).removeGroup(gp);
+					gp.removeUser(p1.getUserByName(list.getSelectedValue().toString()));
 					listModel.remove(i);
+					
 				
+				Portail ptemp = p1;
+				System.out.println(ptemp);
 				
 				}
 				catch (Exception err)
@@ -239,33 +232,49 @@ public class FenetreCreationGroupe extends JFrame  {
 		      
 			public void actionPerformed(ActionEvent e){
 				
+				p1.getGroup(gp.getId()).setNom(textField.getText());
+				p1.getGroup(gp.getId()).setTreeObjet(treePanel);
+				ArrayList<Utilisateur> ListUser = new ArrayList<Utilisateur>();
 				
-	        	int idGroup = p1.ListGroups.size();
-				Groupe groupe = new Groupe(idGroup,textField.getText(), p1.getUserConnected(),treePanel);
+				ListUser.add(p1.getGroup(gp.getId()).getAdminGroup());
+				if ( !p1.getGroup(gp.getId()).getAdminGroup().ListGroup.contains(gp))
+				p1.getGroup(gp.getId()).getAdminGroup().addGroup(gp);
 				
-				// on Lie l'administrateur au groupe 
-				p1.addGroup(groupe);	
 				
-				System.out.println(p1.ListGroups);
-				p1.getUserConnected().addGroup(groupe);
 				
-				// on lie tous les utilisateurs selectionnées au groupe 			
 				for ( int i =0 ; i < listModel.getSize() ; i++ )
 				{
-					if ( !listModel.get(i).toString().equals(p1.getUserConnected().getNom()))
+					if ( !listModel.get(i).toString().equals(p1.getGroup(gp.getId()).getAdminGroup().getNom()))
 					{
-			
-					p1.getGroup(idGroup).addUser(p1.getUserByName(listModel.get(i).toString()));
-					p1.getUserByName(listModel.get(i).toString()).addGroup(p1.getGroup(idGroup));
+					
+					ListUser.add(p1.getUserByName(listModel.get(i).toString()));					
+					p1.getUserByName(listModel.get(i).toString()).addGroup(p1.getGroup(gp.getId()));
+					
+						
 					}
 				}
 				
+				System.out.println(ListUser);
+				Portail tempoP = p1; 
+				System.out.println(tempoP.toString());
+				//for ( int i = 0 ; i<lis)
+				p1.getGroup(gp.getId()).setListUtilisateurs(ListUser);
+	        	/*
+	        	 
+	        	 * DEBUG ]
+	        	 */
+				ArrayList<Groupe> tempgpl = new ArrayList<Groupe>();
+				tempgpl = p1.ListGroups;
+				System.out.println(tempgpl);
+				System.out.println(" -- DEBUG List User --");
+				System.out.println(p1.ListUsers.toString());
 				
-				System.out.println(p1.getUserConnected().toString());
+				System.out.println(" -- DEBUG List Group --");
+				System.out.println(p1.ListGroups);
+				
 				
 				setVisible(false);
 				p1.AfficheEnt(p1);
-				
 				
 	     
 	        }
@@ -331,7 +340,6 @@ public class FenetreCreationGroupe extends JFrame  {
 				
 	        }
 	 });
-		
 		
 		
 		

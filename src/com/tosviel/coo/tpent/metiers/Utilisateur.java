@@ -78,5 +78,10 @@ public class Utilisateur {
 		this.ListGroup.add(group);
 		
 	}
+	public void removeGroup(Groupe groupRemove) {
+		
+		this.ListGroup.remove(groupRemove);
+		
+	}
 
 }

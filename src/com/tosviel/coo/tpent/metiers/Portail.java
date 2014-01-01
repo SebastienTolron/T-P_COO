@@ -155,6 +155,13 @@ public class Portail  {
 		return null;
 		
 		}
+
+
+	@Override
+	public String toString() {
+		return "Portail [UserConnected=" + UserConnected + ", ListUsers="
+				+ ListUsers + ", ListObjet=" + ListObjet + "]" +", ListGroups = "+ ListGroups + "]";
+	}
 		
 	
 }

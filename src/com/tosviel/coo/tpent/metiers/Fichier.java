@@ -11,6 +11,7 @@ public class Fichier extends Objet {
 
 	public Fichier(String string) {
 		this.nom=string;
+		this.type = "Fichier";
 	}
 	
 }
