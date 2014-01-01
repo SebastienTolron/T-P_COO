@@ -15,6 +15,7 @@ import com.tosviel.coo.tpent.metiers.Fichier;
 import com.tosviel.coo.tpent.metiers.Groupe;
 import com.tosviel.coo.tpent.metiers.Portail;
 import com.tosviel.coo.tpent.metiers.Utilisateur;
+import java.awt.Font;
 
 public class FenetreModifierGroupe extends JFrame  {
 
@@ -26,6 +27,7 @@ public class FenetreModifierGroupe extends JFrame  {
 	private JTable table_2;
 	public JTree treePanel;
     private int newNodeSuffix = 1;
+    public int cptNode = 0;
 
 
 	/**
@@ -38,10 +40,6 @@ public class FenetreModifierGroupe extends JFrame  {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		JLabel lblCreationDeGroupe = new JLabel("Modification de ");
-		lblCreationDeGroupe.setBounds(147, 29, 125, 14);
-		contentPane.add(lblCreationDeGroupe);
 		
 		textField = new JTextField(gp.getNom());
 		textField.setBounds(90, 71, 134, 20);
@@ -132,13 +130,15 @@ public class FenetreModifierGroupe extends JFrame  {
 			// construction de l'arbre
 				
 			//create the root node
-	        DefaultMutableTreeNode root = new DefaultMutableTreeNode(new Dossier("Racine"));
+	        DefaultMutableTreeNode root = new DefaultMutableTreeNode(new Dossier(cptNode,"Racine"));
+	        cptNode++;
 	        root.add(new DefaultMutableTreeNode("FichierExemple"));
 
      
         	//create the tree by passing in the root node   
         	
     		treePanel = gp.getTreeObjet();
+    		treePanel.setEditable(false);
     		
     		JScrollPane scrollPane = new JScrollPane(treePanel) ;
     	
@@ -161,8 +161,13 @@ public class FenetreModifierGroupe extends JFrame  {
 			contentPane.add(btnSupprimer);
 			
 			JLabel lblgroupe = new JLabel(gp.getNom());
-			lblgroupe.setBounds(226, 29, 46, 14);
+			lblgroupe.setFont(new Font("Calibri", Font.BOLD, 17));
+			lblgroupe.setBounds(169, 26, 107, 14);
 			contentPane.add(lblgroupe);
+			
+			JButton fichierBtn = new JButton("Fichier");
+			fichierBtn.setBounds(364, 485, 89, 23);
+			contentPane.add(fichierBtn);
 			
 		
 		
@@ -254,9 +259,7 @@ public class FenetreModifierGroupe extends JFrame  {
 					}
 				}
 				
-				System.out.println(ListUser);
-				Portail tempoP = p1; 
-				System.out.println(tempoP.toString());
+				
 				//for ( int i = 0 ; i<lis)
 				p1.getGroup(gp.getId()).setListUtilisateurs(ListUser);
 	        	/*
@@ -265,12 +268,11 @@ public class FenetreModifierGroupe extends JFrame  {
 	        	 */
 				ArrayList<Groupe> tempgpl = new ArrayList<Groupe>();
 				tempgpl = p1.ListGroups;
-				System.out.println(tempgpl);
-				System.out.println(" -- DEBUG List User --");
-				System.out.println(p1.ListUsers.toString());
+				Portail tempoP = p1; 
 				
-				System.out.println(" -- DEBUG List Group --");
-				System.out.println(p1.ListGroups);
+				/*
+				 * 
+				 */
 				
 				
 				setVisible(false);
@@ -286,7 +288,7 @@ public class FenetreModifierGroupe extends JFrame  {
 			public void actionPerformed(ActionEvent e){
 	        	
 				setVisible(false);
-				p1.AfficheEnt(p1);
+				//p1.AfficheEnt(p1);
 				
 	     
 	        }
@@ -312,7 +314,8 @@ public class FenetreModifierGroupe extends JFrame  {
 				if ((selectedNode.getUserObject() instanceof Dossier))
 				{
 					
-					selectedNode.add(new DefaultMutableTreeNode(new Fichier("Fichier")));
+					selectedNode.add(new DefaultMutableTreeNode(new Fichier(cptNode,"Fichier")));
+					cptNode++;
 					treePanel.updateUI();
 				
 				}
@@ -329,9 +332,10 @@ public class FenetreModifierGroupe extends JFrame  {
 				if ((selectedNode.getUserObject() instanceof Dossier))
 				{
 					
-					DefaultMutableTreeNode tempNode = new DefaultMutableTreeNode(new Dossier("Dossier"));
-					tempNode.add(new DefaultMutableTreeNode(new Fichier("FichierExemple")));
-					
+					DefaultMutableTreeNode tempNode = new DefaultMutableTreeNode(new Dossier(cptNode,"Dossier"));
+					cptNode++;
+					tempNode.add(new DefaultMutableTreeNode(new Fichier(cptNode,"FichierExemple")));
+						cptNode++;
 					selectedNode.add(tempNode);					
 					treePanel.updateUI();
 				
@@ -342,8 +346,27 @@ public class FenetreModifierGroupe extends JFrame  {
 	 });
 		
 		
-		
-		
+		fichierBtn.addActionListener(new ActionListener(){
+		      
+			public void actionPerformed(ActionEvent e){
+	        	
+				DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) treePanel.getLastSelectedPathComponent();			
+				if ((selectedNode.getUserObject() instanceof Fichier))
+				{
+					
+					
+					Fichier fileModif = (Fichier) selectedNode.getUserObject();
+					FenetreFichier fich = new FenetreFichier(p1,p1.getGroup(gp.getId()).getFichierById(fileModif.id));
+					fich.setVisible(true);
+					
+				
+				
+				}
+				
+			
+				
+	        }
+	 });
 		
 		
 

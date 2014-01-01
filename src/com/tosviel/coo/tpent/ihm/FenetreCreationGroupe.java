@@ -1,11 +1,13 @@
 package com.tosviel.coo.tpent.ihm;
 
 import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
@@ -14,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
 import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -30,6 +33,7 @@ import com.tosviel.coo.tpent.metiers.Dossier;
 import com.tosviel.coo.tpent.metiers.DynamicTree;
 import com.tosviel.coo.tpent.metiers.Fichier;
 import com.tosviel.coo.tpent.metiers.Groupe;
+import com.tosviel.coo.tpent.metiers.Objet;
 import com.tosviel.coo.tpent.metiers.Portail;
 import com.tosviel.coo.tpent.metiers.Utilisateur;
 
@@ -47,6 +51,9 @@ public class FenetreCreationGroupe extends JFrame  {
 	private JTable table_2;
 	public JTree treePanel;
     private int newNodeSuffix = 1;
+    public int cptTree = 0 ;
+	private ArrayList<Fichier> listObjetFichier = new ArrayList<Fichier>();
+	private ArrayList<Dossier> listObjetDossier = new ArrayList<Dossier>();
 
 
 	/**
@@ -147,7 +154,8 @@ public class FenetreCreationGroupe extends JFrame  {
 			// construction de l'arbre
 				
 			//create the root node
-	        DefaultMutableTreeNode root = new DefaultMutableTreeNode(new Dossier("Racine"));
+	        DefaultMutableTreeNode root = new DefaultMutableTreeNode(new Dossier(cptTree,"Racine"));
+	        cptTree++;
 	        root.add(new DefaultMutableTreeNode("FichierExemple"));
 
      
@@ -242,10 +250,14 @@ public class FenetreCreationGroupe extends JFrame  {
 				
 	        	int idGroup = p1.ListGroups.size();
 				Groupe groupe = new Groupe(idGroup,textField.getText(), p1.getUserConnected(),treePanel);
-				
+				DefaultMutableTreeNode root = (DefaultMutableTreeNode) treePanel.getModel().getRoot();	
+				SaveTree(root, p1, idGroup);
+				groupe.setListFichier(listObjetFichier);
+				groupe.setListDossier(listObjetDossier);
 				// on Lie l'administrateur au groupe 
 				p1.addGroup(groupe);	
 				
+				System.out.println("Groupe = "+ p1.getGroup(idGroup));
 				System.out.println(p1.ListGroups);
 				p1.getUserConnected().addGroup(groupe);
 				
@@ -257,6 +269,7 @@ public class FenetreCreationGroupe extends JFrame  {
 			
 					p1.getGroup(idGroup).addUser(p1.getUserByName(listModel.get(i).toString()));
 					p1.getUserByName(listModel.get(i).toString()).addGroup(p1.getGroup(idGroup));
+					
 					}
 				}
 				
@@ -303,7 +316,9 @@ public class FenetreCreationGroupe extends JFrame  {
 				if ((selectedNode.getUserObject() instanceof Dossier))
 				{
 					
-					selectedNode.add(new DefaultMutableTreeNode(new Fichier("Fichier")));
+					selectedNode.add(new DefaultMutableTreeNode(new Fichier(cptTree,"Fichier")));
+					cptTree++;
+					
 					treePanel.updateUI();
 				
 				}
@@ -320,31 +335,58 @@ public class FenetreCreationGroupe extends JFrame  {
 				if ((selectedNode.getUserObject() instanceof Dossier))
 				{
 					
-					DefaultMutableTreeNode tempNode = new DefaultMutableTreeNode(new Dossier("Dossier"));
-					tempNode.add(new DefaultMutableTreeNode(new Fichier("FichierExemple")));
-					
+					DefaultMutableTreeNode tempNode = new DefaultMutableTreeNode(new Dossier(cptTree,"Dossier"));
+					cptTree++;;
+					tempNode.add(new DefaultMutableTreeNode(new Fichier(cptTree,"FichierExemple")));					
+					cptTree++;
 					selectedNode.add(tempNode);					
+					
 					treePanel.updateUI();
 				
 				}
 			
 				
-	        }
-	 });
-		
-		
-		
-		
-		
-		
-		
-
-		
-		
-	}
+			}
 	
-	public void buildTree()
+		
+			});
+				
+		}
+		
+		
+	public void SaveTree(DefaultMutableTreeNode root,Portail p1,int groupId)
 	{
 		
+	
+		
+		Enumeration enumerationOnTree = root.depthFirstEnumeration();
+	
+    	while(enumerationOnTree.hasMoreElements()) {
+ 
+    		
+    		DefaultMutableTreeNode element = (DefaultMutableTreeNode)enumerationOnTree.nextElement();
+    		System.out.println("Next + "+element.getUserObject());
+    	
+    		if(element.getUserObject() instanceof Dossier ){
+    			
+    			listObjetDossier.add((Dossier)element.getUserObject());
+    			//p1.getGroup(groupId).addDossier(doss);
+ 
+    		}
+    		if(element.getUserObject() instanceof Fichier  ){
+    		
+    		
+    			listObjetFichier.add((Fichier)element.getUserObject());
+    			//p1.getGroup(groupId).addFichier((Fichier)element.getUserObject());
+    		
+ 
+    		
+    		}
+    	
+    	}
+	
+    
 	}
-}
+	
+	
+	}

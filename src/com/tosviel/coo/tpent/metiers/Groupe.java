@@ -6,6 +6,9 @@ package com.tosviel.coo.tpent.metiers;
 import java.util.ArrayList;
 
 import javax.swing.JTree;
+import javax.swing.tree.TreeNode;
+
+
 
 /**
  * @author Seb
@@ -19,6 +22,8 @@ public class Groupe {
 	private Utilisateur adminGroup;
 	private ArrayList<Utilisateur> listUtilisateurs;
 	private ArrayList<Objet> listObjets; 
+	private ArrayList<Fichier> listFichier; 
+	private ArrayList<Dossier> listDossier; 
 	private JTree treeObjet ;
 	
 	public Groupe(int i, String string, Utilisateur j, JTree arbre) {
@@ -44,6 +49,22 @@ public class Groupe {
 
 	public Groupe() {
 
+	}
+
+	public ArrayList<Fichier> getListFichier() {
+		return listFichier;
+	}
+
+	public void setListFichier(ArrayList<Fichier> listFichier) {
+		this.listFichier = listFichier;
+	}
+
+	public ArrayList<Dossier> getListDossier() {
+		return listDossier;
+	}
+
+	public void setListDossier(ArrayList<Dossier> listDossier) {
+		this.listDossier = listDossier;
 	}
 
 	public int getId() {
@@ -84,11 +105,14 @@ public class Groupe {
 		this.treeObjet = treeObjet;
 	}
 
+
+
 	@Override
 	public String toString() {
 		return "Groupe [id=" + id + ", nom=" + nom + ", adminGroup="
 				+ adminGroup + ", listUtilisateurs=" + listUtilisateurs
-				+ ", listObjets=" + listObjets + ", treeObjet=" + treeObjet
+				+ ", listObjets=" + listObjets + ", listFichier=" + listFichier
+				+ ", listDossier=" + listDossier + ", treeObjet=" + treeObjet
 				+ "]";
 	}
 
@@ -112,6 +136,34 @@ public class Groupe {
 		this.listUtilisateurs.remove(userByName);
 		
 	}
+
+	
+
+	public Objet getObjet(Fichier fileModif) {
+		
+		Fichier returnF = new Fichier();
+		for ( int i = 0 ; i < listObjets.size();i++)
+		{
+			if ( listObjets.get(i) == fileModif)
+			{
+				returnF = (Fichier) listObjets.get(i);
+			}
+		}
+		
+		return returnF;
+	}
+
+	public Fichier getFichierById(int id2) {
+
+		for ( int i= 0 ; i< listFichier.size() ; i++ )
+		{
+				if (listFichier.get(i).id == id2)
+				return listFichier.get(i);
+		}
+		return null;
+	}
+
+
 
 	
 	
