@@ -192,14 +192,16 @@ public class FenetreModifierGroupe extends JFrame {
 		btnAjouterFichier.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
+				
+				Fichier f1 = new Fichier(cptNode, "Fichier");
+				cptNode++;
 
 				DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) treePanel
 						.getLastSelectedPathComponent();
 				if ((selectedNode.getUserObject() instanceof Dossier)) {
 
-					selectedNode.add(new DefaultMutableTreeNode(new Fichier(
-							cptNode, "Fichier")));
-					cptNode++;
+					gp.getListFichier().add(f1);
+					selectedNode.add(new DefaultMutableTreeNode(f1));
 					treePanel.updateUI();
 
 				}
@@ -214,7 +216,7 @@ public class FenetreModifierGroupe extends JFrame {
 
 		JLabel label = new JLabel(gp.getNom());
 		label.setFont(new Font("Calibri", Font.BOLD, 24));
-		label.setBounds(199, 11, 192, 30);
+		label.setBounds(162, 11, 369, 30);
 		contentPane.add(label);
 		// In this case the custom component is responsible for rendering the
 		// title of the tab.
@@ -317,16 +319,22 @@ public class FenetreModifierGroupe extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 
+				Dossier d1 = new Dossier(cptNode,"Dossier");
+				cptNode++;
+				Fichier f1 = new Fichier(cptNode,"NewFichier.pdf");
+				cptNode++;
 				DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) treePanel
 						.getLastSelectedPathComponent();
 				if ((selectedNode.getUserObject() instanceof Dossier)) {
 
+					gp.getListFichier().add(f1);
+					gp.getListDossier().add(d1);
+					
 					DefaultMutableTreeNode tempNode = new DefaultMutableTreeNode(
-							new Dossier(cptNode, "Dossier"));
-					cptNode++;
-					tempNode.add(new DefaultMutableTreeNode(new Fichier(
-							cptNode, "FichierExemple")));
-					cptNode++;
+							d1);
+				
+					tempNode.add(new DefaultMutableTreeNode(f1));
+				
 					selectedNode.add(tempNode);
 					treePanel.updateUI();
 
@@ -351,10 +359,10 @@ public class FenetreModifierGroupe extends JFrame {
 				}
 				if ((selectedNode.getUserObject() instanceof Dossier)) {
 
-					Fichier fileModif = (Fichier) selectedNode.getUserObject();
-					FenetreFichier fich = new FenetreFichier(p1, p1.getGroup(
-							gp.getId()).getFichierById(fileModif.id),p1.getGroup(gp.getId()));
-					fich.setVisible(true);
+					Dossier folderModif = (Dossier) selectedNode.getUserObject();
+					FenetreDossier fdoss = new FenetreDossier(p1, p1.getGroup(
+							gp.getId()).getDossierById(folderModif.id),p1.getGroup(gp.getId()));
+					fdoss.setVisible(true);
 
 				}
 

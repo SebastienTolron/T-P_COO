@@ -1,30 +1,21 @@
 package com.tosviel.coo.tpent.metiers;
 
-public class Relation {
+public enum Relation {
 
-	private Libele libele;
-	private Object objet;
+	// Objets directement construits
+	TdDe("Est le TD de "),
+	TpDe("Est le TP de "),
+	CorrectionDe("Est la correction de");
 
-	public Relation(String pLibele, Object pObjet) {
-		this.setLibele(Libele.valueOf(pLibele));
-		this.setObjet(pObjet);
-		// TODO Auto-generated constructor stub
-	}
+	private String name = "";
 
-	public Libele getLibele() {
-		return libele;
-	}
+	// Constructeur
+	Relation(String name){
+	   this.name = name;
+	  }
 
-	public void setLibele(Libele libele) {
-		this.libele = libele;
-	}
-
-	public Object getObjet() {
-		return objet;
-	}
-
-	public void setObjet(Object objet) {
-		this.objet = objet;
+	public String toString() {
+		return name;
 	}
 
 }
